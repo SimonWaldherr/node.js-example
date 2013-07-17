@@ -1,0 +1,23 @@
+{
+  "name": "node.js-example",
+  "version": "0.1.0",
+  "description": "an example how to use node.js as a webserver",
+  "author": "Simon Waldherr",
+  "license": "Public Domain",
+  "main": "httpdjs.js",
+  "dependencies": {
+    "express": "3.x"
+  },
+  "engines": {
+    "node": "0.8.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-sample"
+  },
+  "keywords": [
+    "node",
+    "http",
+    "server"
+  ]
+}
