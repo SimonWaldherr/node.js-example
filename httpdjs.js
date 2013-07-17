@@ -1,24 +1,44 @@
-var fs,
-  express,
-  app,
-  port;
+/*jslint devel: true, node: true, indent: 2 */
 
-fs = require('fs');
-express = require('express');
-app = express.createServer(express.logger());
-port = process.env.PORT || 8080;
+var http = require('http'),
+  urire = require('./urire.js'),
+  path = require('path'),
+  fs = require('fs'),
+  port = process.env.PORT || 8080;
 
-app.use(function(request, response, next){
-  var fileuri = request.url !== '/' ? request.url : '/index.html';
-  fs.exists('./htdocs' + fileuri, function (found) {
-    if (found) {
-      response.send(fs.readFileSync('./htdocs' + fileuri).toString());
-    } else {
-      response.send(404, 'These aren\'t the files you\'re looking for');
+http.createServer(function (request, response) {
+  'use strict';
+  var uri = urire.parse(request.url),
+    filename = 'htdocs' + uri.path;
+
+  console.log(filename);
+
+  fs.exists(filename, function (exists) {
+    if (!exists) {
+      response.writeHead(404, {'Content-Type': 'text/plain'});
+      response.write('404 Not Found\n');
+      response.end();
+      return;
     }
-  });
-});
 
-app.listen(port, function() {
-  console.log('Listening on port ' + port);
-});
+    /*jslint stupid: true */
+    if (fs.lstatSync(filename).isDirectory()) {
+      filename += '/index.html';
+    }
+
+    fs.readFile(filename, 'binary', function (err, file) {
+      if (err) {
+        response.writeHead(500, {'Content-Type': 'text/plain'});
+        response.write(err + '\n');
+        response.end();
+        return;
+      }
+
+      response.writeHead(200);
+      response.write(file, 'binary');
+      response.end();
+    });
+  });
+}).listen(parseInt(port, 10));
+
+console.log('Webserver listening on port ' + port);
