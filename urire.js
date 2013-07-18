@@ -4,7 +4,7 @@ module.exports = {
   parse: function (string) {
     "use strict";
     var regex, i, urlparts = {};
-    
+
     function countChars(string, split) {
       string = string.split(split);
       if (typeof string === 'object') {
@@ -23,7 +23,7 @@ module.exports = {
       'query': '',
       'fragment': ''
     };
-    
+
     for (i = 0; i < urlparts.regex.length; i += 1) {
       if (countChars(urlparts.regex[i], '://') === 1) {
         urlparts.clean.protocol = urlparts.regex[i] === undefined ? false : urlparts.regex[i].split('://')[0];
@@ -51,7 +51,7 @@ module.exports = {
         }
       }
     }
-    
+
     if (urlparts.clean.path.indexOf(".") !== -1) {
       urlparts.clean.fileextension = urlparts.clean.path.split('.')[urlparts.clean.path.split('.').length - 1];
     }
