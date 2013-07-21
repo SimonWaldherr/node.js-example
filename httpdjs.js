@@ -1,7 +1,7 @@
 /*jslint devel: true, node: true, indent: 2 */
 
 var http = require('http'),
-  urire = require('./urire.js'),
+  urire = require('./modules/urire/urire.js'),
   path = require('path'),
   fs = require('fs'),
   port = process.env.PORT || 8080;
